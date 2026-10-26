@@ -19,3 +19,4 @@ Vào mục **Releases** và tải file `phim-nhanh-x.y.z.apk` mới nhất. Mu�
 ## Quyền cần bật
 - **Trợ năng** – để nhận nút âm lượng, chụp/khóa màn hình và bấm hộ nút Dịch màn hình. App không thu thập hay gửi dữ liệu.
 - **Ứng dụng trợ lý kỹ thuật số = Phím Nhanh** – để dùng nút nguồn.
+
