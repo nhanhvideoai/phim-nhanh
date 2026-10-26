@@ -32,9 +32,12 @@ public class PhimService extends AccessibilityService {
   final class Phim {
     final String ten; final int huong;
     boolean daGiu, laLan2, choLan2, lapLai;
-    Phim(String ten, int huong) { this.ten = ten; this.huong = huong; }
-    final Runnable khiGiu = () -> { daGiu = true; HanhDong.chayNut(PhimService.this, this.ten + "_giu"); };
-    final Runnable motLan = () -> { choLan2 = false; chinhAm(this.huong); };
+    final Runnable khiGiu, motLan;
+    Phim(String ten, int huong) {
+      this.ten = ten; this.huong = huong;
+      khiGiu = () -> { daGiu = true; HanhDong.chayNut(PhimService.this, ten + "_giu"); };
+      motLan = () -> { choLan2 = false; chinhAm(huong); };
+    }
   }
   final Phim len = new Phim("len", AudioManager.ADJUST_RAISE);
   final Phim xuong = new Phim("xuong", AudioManager.ADJUST_LOWER);
