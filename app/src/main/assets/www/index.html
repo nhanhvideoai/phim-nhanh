@@ -53,6 +53,7 @@ body{
 .nd b{display:block;font-size:16px;font-weight:620;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .nd span{display:block;font-size:13px;color:var(--chu2);margin-top:2px}
 .tat .bt,.tat .nd b{opacity:.45}
+.doi{font-style:normal;color:var(--vang);font-weight:600}
 .thu{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:none;
   background:rgba(255,255,255,.1);transition:transform .35s var(--lo-xo)}
 .thu:active{transform:scale(.85)}
@@ -73,6 +74,7 @@ body{
   transition:transform .35s var(--lo-xo)}
 .nut:active{transform:scale(.93)}
 .ok{color:#8dffb5;font-size:14px;font-weight:650;flex:none}
+.goiy{font-size:13.5px;color:var(--chu2);margin:0 6px 12px;line-height:1.45}
 .ghichu{font-size:12.5px;color:var(--chu3);padding:4px 16px 14px;line-height:1.45}
 .chan{text-align:center;font-size:12.5px;color:var(--chu3);margin:18px 0 6px;line-height:1.7}
 .chan a{color:var(--chu2);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
@@ -114,6 +116,7 @@ body{
     <div><h1>Phím Nhanh</h1><p>Gắn nút nguồn và âm lượng theo ý bạn</p></div>
   </div>
   <div id="quyen"></div>
+  <div class="goiy">Bấm vào từng dòng để đổi chức năng hoặc chọn app bất kỳ. Gạt công tắc để bật/tắt.</div>
   <div id="nhom"></div>
   <div class="the">
     <div class="dong bam" id="rungDong">
@@ -217,7 +220,7 @@ function veNhom(){
       ${g.dong.map(([k,nhan])=>{const o=cfg[k]||{bat:false,loai:'none'};return `
       <div class="dong bam ${o.bat?'':'tat'}" data-k="${k}">
         <div class="bt">${bieuTuong(o)}</div>
-        <div class="nd"><b>${tenHanhDong(o)}</b><span>${nhan}</span></div>
+        <div class="nd"><b>${tenHanhDong(o)}</b><span>${nhan} · <i class="doi">Đổi / chọn app ›</i></span></div>
         <div class="thu" data-thu="${k}">${svg('<path d="M8 5.5v13l10-6.5z" fill="rgba(255,255,255,.85)"/>')}</div>
         <div class="cong ${o.bat?'mo':''}" data-cong="${k}"></div>
       </div>`}).join('')}
