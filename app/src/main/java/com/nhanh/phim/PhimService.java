@@ -177,15 +177,12 @@ public class PhimService extends AccessibilityService {
   @Override public void onAccessibilityEvent(AccessibilityEvent e) {
     CharSequence pk = e.getPackageName();
     if (pk != null && pk.toString().contains("packageinstaller")) batDauXacNhan();
-    if (pk != null && pk.toString().contains("packageinstaller") == false && SystemClock.uptimeMillis() < choCaiDen) batDauXacNhan();
     if (buoc != 0) quet();
   }
 
   // ---------------- Tự bấm xác nhận khi cập nhật app của ông Nhanh ----------------
   static final String[] APP_CUA_TOI = {"Lịch Nhanh", "Phím Nhanh"};
   static volatile long choCaiDen = 0;   // app của Nhanh vừa báo sắp cài bản mới
-  static final String[] NUT_CAI = {"Tiếp tục cài đặt", "Tiếp tục", "Continue installation", "Continue", "继续安装", "继续",
-      "Cập nhật", "Update", "更新", "Cài đặt", "Install", "安装"};
   long xacNhanDen = 0, lanBamCai = 0;
 
   void batDauXacNhan() {
@@ -208,7 +205,11 @@ public class PhimService extends AccessibilityService {
       boolean cuaToi = SystemClock.uptimeMillis() < choCaiDen;
       for (String t : APP_CUA_TOI) if (!r.findAccessibilityNodeInfosByText(t).isEmpty()) { cuaToi = true; break; }
       if (!cuaToi) continue;
-      for (String t : NUT_CAI) {
+      // Bước 1: hộp cảnh báo "Couldn't find ICP registration info" → nút "Install" (tiếp tục)
+      boolean hopICP = !r.findAccessibilityNodeInfosByText("ICP").isEmpty();
+      // Bước 2: màn hình cài → chỉ bấm "Update/Cập nhật" (không bấm nút Install của quảng cáo app khác)
+      String[] nut = hopICP ? new String[] {"Install", "Cài đặt", "安装", "Tiếp tục", "Continue", "继续安装"} : new String[] {"Update", "Cập nhật", "更新"};
+      for (String t : nut) {
         for (AccessibilityNodeInfo n : r.findAccessibilityNodeInfosByText(t)) {
           CharSequence x = n.getText();
           if (x == null || !x.toString().trim().equalsIgnoreCase(t)) continue;
@@ -217,10 +218,12 @@ public class PhimService extends AccessibilityService {
           p.performAction(AccessibilityNodeInfo.ACTION_CLICK);
           lanBamCai = SystemClock.uptimeMillis();
           Nhatky.ghi(this, "tu bam nut cai: " + t);
+          if (!hopICP) { choCaiDen = 0; xacNhanDen = 0; }   // đã bấm cập nhật xong → dừng
           return;
         }
       }
     }
   }
+
   @Override public void onInterrupt() {}
 }
