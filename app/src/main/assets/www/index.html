@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Phím Nhanh</title>
+<style>
+:root{
+  --sat:0px;--sab:0px;--sal:0px;--sar:0px;
+  --chu:#fff;--chu2:rgba(255,255,255,.66);--chu3:rgba(255,255,255,.42);
+  --kinh:linear-gradient(140deg,rgba(255,255,255,.17),rgba(255,255,255,.06) 55%,rgba(255,255,255,.11));
+  --vien:rgba(255,255,255,.2);
+  --vang:#ffd25e;--cam:#ff9a4d;--xanh:#5fe0ff;
+  --lo-xo:cubic-bezier(.2,1.18,.32,1);--muot:cubic-bezier(.3,.9,.3,1);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--chu);
+  background:#16224d;overflow:hidden;-webkit-font-smoothing:antialiased;user-select:none;
+}
+.nen{position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(60% 45% at 12% 8%,rgba(95,224,255,.42),transparent 70%),
+    radial-gradient(55% 45% at 95% 92%,rgba(255,140,90,.45),transparent 70%),
+    radial-gradient(50% 40% at 85% 25%,rgba(170,110,255,.35),transparent 70%),
+    linear-gradient(160deg,#17306a 0%,#2c2f80 48%,#5a2c72 100%);}
+.cuon{position:relative;z-index:1;height:100%;overflow-y:auto;overscroll-behavior:contain;
+  padding:calc(var(--sat) + 18px) calc(var(--sar) + 16px) calc(var(--sab) + 28px) calc(var(--sal) + 16px);}
+.dau{display:flex;align-items:center;gap:14px;margin:6px 4px 18px}
+.logo{width:54px;height:54px;border-radius:16px;flex:none;position:relative;
+  background:linear-gradient(145deg,rgba(255,255,255,.42),rgba(255,255,255,.12));
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.7),inset 0 -1px 0 rgba(255,255,255,.25),0 8px 22px rgba(10,15,48,.4);
+  display:grid;place-items:center}
+.logo svg{width:30px;height:30px;filter:drop-shadow(0 0 8px rgba(255,190,80,.7))}
+.dau h1{font-size:26px;font-weight:750;letter-spacing:-.3px}
+.dau p{font-size:13px;color:var(--chu2);margin-top:2px}
+
+.the{background:var(--kinh);border:1px solid var(--vien);border-radius:24px;margin-bottom:14px;overflow:hidden;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 12px 30px rgba(8,12,40,.28);}
+.the-dau{display:flex;align-items:center;gap:10px;padding:14px 16px 6px;font-size:13px;font-weight:650;
+  color:var(--chu2);letter-spacing:.3px;text-transform:uppercase}
+.the-dau svg{width:18px;height:18px;opacity:.85}
+.dong{display:flex;align-items:center;gap:12px;padding:12px 14px 12px 16px;position:relative;
+  transition:transform .35s var(--lo-xo),background .2s}
+.dong+.dong::before{content:"";position:absolute;top:0;left:66px;right:14px;height:1px;background:rgba(255,255,255,.1)}
+.dong.bam:active{transform:scale(.975);background:rgba(255,255,255,.07)}
+.bt{width:40px;height:40px;border-radius:12px;flex:none;display:grid;place-items:center;
+  background:rgba(255,255,255,.13);box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.bt svg{width:22px;height:22px}
+.bt img{width:34px;height:34px;border-radius:9px}
+.nd{flex:1;min-width:0}
+.nd b{display:block;font-size:16px;font-weight:620;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nd span{display:block;font-size:13px;color:var(--chu2);margin-top:2px}
+.tat .bt,.tat .nd b{opacity:.45}
+.thu{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:none;
+  background:rgba(255,255,255,.1);transition:transform .35s var(--lo-xo)}
+.thu:active{transform:scale(.85)}
+.thu svg{width:16px;height:16px}
+
+.cong{width:52px;height:32px;border-radius:16px;flex:none;position:relative;background:rgba(255,255,255,.22);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.25);transition:background .25s}
+.cong::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;
+  box-shadow:0 2px 6px rgba(0,0,0,.3);transition:transform .45s var(--lo-xo)}
+.cong.mo{background:linear-gradient(90deg,#ffb84d,#ff8a3d)}
+.cong.mo::after{transform:translateX(20px)}
+
+.canh{display:flex;gap:12px;padding:14px 16px;align-items:center}
+.canh .chu{flex:1;font-size:14px;line-height:1.4;color:var(--chu2)}
+.canh .chu b{color:#fff;font-size:15px;display:block;margin-bottom:2px}
+.nut{border:0;border-radius:14px;padding:10px 16px;font-size:14px;font-weight:650;color:#2a1600;flex:none;
+  background:linear-gradient(180deg,#ffe08a,#ffb24d);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 6px 16px rgba(255,150,60,.35);
+  transition:transform .35s var(--lo-xo)}
+.nut:active{transform:scale(.93)}
+.ok{color:#8dffb5;font-size:14px;font-weight:650;flex:none}
+.ghichu{font-size:12.5px;color:var(--chu3);padding:4px 16px 14px;line-height:1.45}
+.chan{text-align:center;font-size:12.5px;color:var(--chu3);margin:18px 0 6px;line-height:1.7}
+.chan a{color:var(--chu2);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
+
+/* Bảng chọn trượt lên */
+.man{position:fixed;inset:0;z-index:10;background:rgba(5,8,30,.45);opacity:0;pointer-events:none;transition:opacity .3s}
+.man.hien{opacity:1;pointer-events:auto}
+.bang{position:fixed;left:0;right:0;bottom:0;z-index:11;max-height:86%;display:flex;flex-direction:column;
+  margin:0 auto;max-width:640px;border-radius:28px 28px 0 0;
+  background:linear-gradient(160deg,rgba(52,62,140,.97),rgba(70,44,110,.97));
+  border:1px solid rgba(255,255,255,.22);border-bottom:0;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 -12px 40px rgba(0,0,0,.35);
+  transform:translateY(105%);transition:transform .5s var(--lo-xo);padding-bottom:var(--sab)}
+.bang.hien{transform:none}
+.bang .keo{width:40px;height:5px;border-radius:3px;background:rgba(255,255,255,.35);margin:10px auto 4px}
+.bang h2{font-size:18px;font-weight:700;padding:8px 20px 10px}
+.bang h2 small{display:block;font-size:13px;font-weight:500;color:var(--chu2);margin-top:2px}
+.ds{overflow-y:auto;padding:0 8px 14px}
+.ds .dong{border-radius:16px}
+.ds .dong::before{display:none}
+.ds .dong.chon{background:rgba(255,210,94,.16);box-shadow:inset 0 0 0 1px rgba(255,210,94,.45)}
+.tim{margin:0 16px 10px;display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:14px;
+  background:rgba(255,255,255,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.tim input{flex:1;background:none;border:0;outline:0;color:#fff;font-size:16px}
+.tim input::placeholder{color:var(--chu3)}
+.tim svg{width:18px;height:18px;opacity:.7}
+.trong{padding:30px;text-align:center;color:var(--chu2)}
+.toast{position:fixed;left:50%;bottom:calc(var(--sab) + 28px);transform:translate(-50%,20px);opacity:0;z-index:20;
+  background:rgba(20,24,60,.92);border:1px solid rgba(255,255,255,.2);padding:10px 18px;border-radius:16px;font-size:14px;
+  transition:all .4s var(--lo-xo);pointer-events:none;white-space:nowrap}
+.toast.hien{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div class="nen"></div>
+<div class="cuon" id="cuon">
+  <div class="dau">
+    <div class="logo"><svg viewBox="0 0 24 24"><defs><linearGradient id="lg" x1="0" y1="0" x2=".4" y2="1"><stop offset="0" stop-color="#fff6c9"/><stop offset=".5" stop-color="#ffd25e"/><stop offset="1" stop-color="#ff8a3d"/></linearGradient></defs><path fill="url(#lg)" d="M13.6 2 6.5 13.3h4.6L9.6 22l7.9-11.6h-4.8L15 2z"/></svg></div>
+    <div><h1>Phím Nhanh</h1><p>Gắn nút nguồn và âm lượng theo ý bạn</p></div>
+  </div>
+  <div id="quyen"></div>
+  <div id="nhom"></div>
+  <div class="the">
+    <div class="dong bam" id="rungDong">
+      <div class="bt"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M3 9v6M21 9v6"/></svg></div>
+      <div class="nd"><b>Rung nhẹ khi kích hoạt</b><span>Biết ngay là nút đã nhận</span></div>
+      <div class="cong" id="rungCong"></div>
+    </div>
+  </div>
+  <div class="ghichu">• Bấm âm lượng một lần vẫn chỉnh âm lượng như thường.<br>• Nút âm lượng chỉ dùng được khi màn hình đang sáng (Android không cho app nào đọc nút này lúc màn hình tắt).<br>• Đang gọi điện thì nút âm lượng hoạt động bình thường.</div>
+  <div class="chan" id="chan"></div>
+</div>
+
+<div class="man" id="man"></div>
+<div class="bang" id="bang">
+  <div class="keo"></div>
+  <h2 id="bangTieuDe"></h2>
+  <div class="tim" id="timHop" style="display:none">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="timO" placeholder="Tìm ứng dụng">
+  </div>
+  <div class="ds" id="ds"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const N = window.Native || {
+  cauHinh:()=>JSON.stringify({nguon_giu:{bat:true,loai:'dich'},len_giu:{bat:false,loai:'den_pin'},len_2lan:{bat:false,loai:'camera'},xuong_giu:{bat:false,loai:'gemini'},xuong_2lan:{bat:false,loai:'chup'},rung:true}),
+  luu:()=>{}, trangThai:()=>'{"troNang":false,"troLy":true,"phienBan":"thử"}',
+  dsApp:()=>JSON.stringify([{pkg:'jp.naver.line.android',ten:'LINE'},{pkg:'com.facebook.orca',ten:'Messenger'}]),
+  icon:()=>'', moTroNang:()=>{}, moTroLy:()=>{}, thu:()=>{}, moWeb:()=>{}
+};
+const $ = s => document.querySelector(s);
+const svg = (d, mau='#fff') => `<svg viewBox="0 0 24 24" fill="none" stroke="${mau}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const BIEU = {
+  dich: svg('<path d="M4 5h8M8 3v2M5.5 5c.8 3 3 5.5 5.5 6.5M10.5 5C10 8 7.5 11 4 12.5"/><path d="m13 21 4-9 4 9M14.4 18h5.2"/>','#9ff0ff'),
+  app: svg('<rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/>'),
+  gemini: svg('<path d="M12 2.5c.6 5 3.5 8.6 9.5 9.5-6 .9-8.9 4.5-9.5 9.5-.6-5-3.5-8.6-9.5-9.5 6-.9 8.9-4.5 9.5-9.5z" fill="rgba(140,170,255,.35)"/>','#b9c8ff'),
+  den_pin: svg('<path d="M8 3h8l-1.5 5h-5zM9.5 8h5v11a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2z"/><path d="M12 12v3"/>','#ffe08a'),
+  chup: svg('<path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16"/><circle cx="12" cy="12" r="3"/>'),
+  khoa: svg('<rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>'),
+  camera: svg('<path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.5-2h6l1.5 2h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="13" r="3.5"/>'),
+  nhac: svg('<path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>','#ffc0e0'),
+  nhac_tiep: svg('<path d="m5 6 9 6-9 6zM18 6v12"/>'),
+  nhac_truoc: svg('<path d="m19 6-9 6 9 6zM6 6v12"/>'),
+  thong_bao: svg('<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>'),
+  cai_dat_nhanh: svg('<path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/>'),
+  gan_day: svg('<rect x="4" y="4" width="7" height="16" rx="2"/><rect x="13" y="7" width="7" height="10" rx="2"/>'),
+  im_lang: svg('<path d="M6 16V11a6 6 0 0 1 9.5-4.9M18 11v5l1.5 2h-11"/><path d="M3 3l18 18"/>'),
+  none: svg('<circle cx="12" cy="12" r="8"/><path d="M6.5 6.5l11 11"/>','rgba(255,255,255,.6)')
+};
+const CN = [
+  ['dich','Dịch màn hình','Dịch cả màn hình sang tiếng Việt ngay'],
+  ['app','Mở ứng dụng…','Chọn bất kỳ app nào trong máy'],
+  ['gemini','Gemini','Trợ lý AI của Google'],
+  ['den_pin','Đèn pin','Bật / tắt'],
+  ['camera','Camera','Mở máy ảnh'],
+  ['chup','Chụp màn hình',''],
+  ['khoa','Khóa màn hình',''],
+  ['nhac','Phát / dừng nhạc',''],
+  ['nhac_tiep','Bài tiếp theo',''],
+  ['nhac_truoc','Bài trước',''],
+  ['im_lang','Chuông ↔ Rung','Đổi nhanh chế độ chuông'],
+  ['thong_bao','Kéo thanh thông báo',''],
+  ['cai_dat_nhanh','Cài đặt nhanh',''],
+  ['gan_day','Ứng dụng gần đây','']
+];
+const TEN = Object.fromEntries(CN.map(x=>[x[0],x[1]]));
+const NHOM = [
+  {ten:'Nút nguồn', icon:'<path d="M12 3v8"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0"/>', dong:[['nguon_giu','Giữ nút nguồn']]},
+  {ten:'Tăng âm lượng', icon:'<path d="M4 9.5h3l4-3.5v12l-4-3.5H4z"/><path d="M15 9.5a3.5 3.5 0 0 1 0 5M17.5 7a7 7 0 0 1 0 10"/>', dong:[['len_giu','Giữ'],['len_2lan','Bấm 2 lần']]},
+  {ten:'Giảm âm lượng', icon:'<path d="M4 9.5h3l4-3.5v12l-4-3.5H4z"/><path d="M15 9.5a3.5 3.5 0 0 1 0 5"/>', dong:[['xuong_giu','Giữ'],['xuong_2lan','Bấm 2 lần']]}
+];
+
+let cfg = JSON.parse(N.cauHinh());
+let tt = {};
+let apps = null;
+const iconCache = {};
+const luu = () => N.luu(JSON.stringify(cfg));
+
+function toast(s){const t=$('#toast');t.textContent=s;t.classList.add('hien');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('hien'),1800)}
+function iconApp(pkg){ if(!(pkg in iconCache)) iconCache[pkg]=N.icon(pkg); return iconCache[pkg]; }
+function bieuTuong(o){
+  if(o.loai==='app'){const s=iconApp(o.pkg);return s?`<img src="${s}">`:BIEU.app;}
+  return BIEU[o.loai]||BIEU.none;
+}
+function tenHanhDong(o){ return o.loai==='app' ? (o.ten||'Ứng dụng') : (TEN[o.loai]||'Chưa chọn'); }
+
+function veQuyen(){
+  tt = JSON.parse(N.trangThai());
+  let h='';
+  if(!tt.troNang) h+=`<div class="the"><div class="canh"><div class="chu"><b>Bật quyền Trợ năng</b>Cần để nhận nút âm lượng, chụp màn hình và tự bấm Dịch màn hình.</div><button class="nut" onclick="N.moTroNang()">Bật</button></div></div>`;
+  if(!tt.troLy && cfg.nguon_giu && cfg.nguon_giu.bat) h+=`<div class="the"><div class="canh"><div class="chu"><b>Gắn vào nút nguồn</b>Vào "Ứng dụng trợ lý kỹ thuật số" và chọn Phím Nhanh.</div><button class="nut" onclick="N.moTroLy()">Mở</button></div></div>`;
+  $('#quyen').innerHTML=h;
+  $('#chan').innerHTML=`Phím Nhanh ${tt.phienBan||''} · Tác giả <b>Trần Thanh Nhanh</b><br><a href="#" onclick="N.moWeb('https://github.com/nhanhvideoai/phim-nhanh');return false">Mã nguồn trên GitHub</a>`;
+}
+
+function veNhom(){
+  $('#nhom').innerHTML = NHOM.map(g=>`
+    <div class="the">
+      <div class="the-dau">${svg(g.icon)}${g.ten}</div>
+      ${g.dong.map(([k,nhan])=>{const o=cfg[k]||{bat:false,loai:'none'};return `
+      <div class="dong bam ${o.bat?'':'tat'}" data-k="${k}">
+        <div class="bt">${bieuTuong(o)}</div>
+        <div class="nd"><b>${tenHanhDong(o)}</b><span>${nhan}</span></div>
+        <div class="thu" data-thu="${k}">${svg('<path d="M8 5.5v13l10-6.5z" fill="rgba(255,255,255,.85)"/>')}</div>
+        <div class="cong ${o.bat?'mo':''}" data-cong="${k}"></div>
+      </div>`}).join('')}
+    </div>`).join('');
+  $('#rungCong').classList.toggle('mo', cfg.rung!==false);
+}
+
+document.addEventListener('click', e=>{
+  const c=e.target.closest('[data-cong]');
+  if(c){ const k=c.dataset.cong; cfg[k]=cfg[k]||{loai:'none'}; cfg[k].bat=!cfg[k].bat; luu(); veNhom(); veQuyen(); return; }
+  const t=e.target.closest('[data-thu]');
+  if(t){ const o=cfg[t.dataset.thu]; if(o&&o.loai!=='none'){ toast('Thử: '+tenHanhDong(o)); setTimeout(()=>N.thu(JSON.stringify(o)), o.loai==='dich'?600:150);} return; }
+  const d=e.target.closest('#nhom .dong[data-k]');
+  if(d){ moChucNang(d.dataset.k); return; }
+});
+$('#rungDong').onclick=()=>{cfg.rung=!(cfg.rung!==false);luu();veNhom();};
+
+let dangSua=null;
+function moBang(tieuDe, coTim){
+  $('#bangTieuDe').innerHTML=tieuDe;
+  $('#timHop').style.display=coTim?'flex':'none';
+  $('#timO').value='';
+  $('#man').classList.add('hien'); $('#bang').classList.add('hien');
+  $('#ds').scrollTop=0;
+}
+function dongBang(){ $('#man').classList.remove('hien'); $('#bang').classList.remove('hien'); dangSua=null; }
+$('#man').onclick=dongBang;
+window.onNativeBack=()=>{ if($('#bang').classList.contains('hien')){dongBang();return true;} return false; };
+window.onNativeResume=()=>{ veQuyen(); };
+
+function nhanCua(k){ for(const g of NHOM) for(const [kk,n] of g.dong) if(kk===k) return g.ten+' · '+n; return ''; }
+
+function moChucNang(k){
+  dangSua=k; const o=cfg[k]||{};
+  moBang(`Chọn chức năng<small>${nhanCua(k)}</small>`, false);
+  $('#ds').innerHTML = CN.map(([id,ten,mo])=>`
+    <div class="dong bam ${o.loai===id?'chon':''}" data-cn="${id}">
+      <div class="bt">${id==='app'&&o.loai==='app'?bieuTuong(o):BIEU[id]}</div>
+      <div class="nd"><b>${id==='app'&&o.loai==='app'?'Mở: '+o.ten:ten}</b>${mo?`<span>${mo}</span>`:''}</div>
+    </div>`).join('');
+}
+$('#ds').addEventListener('click', e=>{
+  const d=e.target.closest('[data-cn]');
+  if(d){ const id=d.dataset.cn;
+    if(id==='app'){ moChonApp(); return; }
+    cfg[dangSua]={bat:true,loai:id}; luu(); veNhom(); veQuyen(); dongBang(); toast('Đã gắn: '+TEN[id]); return; }
+  const a=e.target.closest('[data-pkg]');
+  if(a){ cfg[dangSua]={bat:true,loai:'app',pkg:a.dataset.pkg,ten:a.dataset.ten}; luu(); veNhom(); dongBang(); toast('Đã gắn: '+a.dataset.ten); }
+});
+
+function moChonApp(){
+  $('#bangTieuDe').innerHTML=`Chọn ứng dụng<small>${nhanCua(dangSua)}</small>`;
+  $('#timHop').style.display='flex';
+  $('#ds').innerHTML='<div class="trong">Đang tải danh sách app…</div>';
+  setTimeout(()=>{ if(!apps) apps=JSON.parse(N.dsApp()); veApp(''); },30);
+}
+function boDau(s){return s.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D').toLowerCase()}
+function veApp(q){
+  const k=boDau(q.trim());
+  const l=apps.filter(a=>!k||boDau(a.ten).includes(k)||a.pkg.includes(k));
+  const cur=cfg[dangSua]||{};
+  $('#ds').innerHTML = l.length? l.map(a=>`
+    <div class="dong bam ${cur.loai==='app'&&cur.pkg===a.pkg?'chon':''}" data-pkg="${a.pkg}" data-ten="${a.ten.replace(/"/g,'&quot;')}">
+      <div class="bt"><img data-icon="${a.pkg}" alt=""></div>
+      <div class="nd"><b>${a.ten}</b></div>
+    </div>`).join('') : '<div class="trong">Không tìm thấy app</div>';
+  napIcon();
+}
+let ioIcon = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ const im=e.target; im.src=iconApp(im.dataset.icon)||''; ioIcon.unobserve(im);} }),{root:$('#ds'),rootMargin:'200px'});
+function napIcon(){ document.querySelectorAll('img[data-icon]').forEach(i=>ioIcon.observe(i)); }
+$('#timO').addEventListener('input', e=>veApp(e.target.value));
+
+veQuyen(); veNhom();
+</script>
+</body>
+</html>
