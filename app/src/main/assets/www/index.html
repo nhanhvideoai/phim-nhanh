@@ -125,6 +125,17 @@ body{
       <div class="cong" id="rungCong"></div>
     </div>
   </div>
+  <div class="the" id="capNhatThe">
+    <div class="dong bam" id="tuDongDong">
+      <div class="bt"><svg viewBox="0 0 24 24" fill="none" stroke="#9ff0ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/></svg></div>
+      <div class="nd"><b>Tự động cập nhật</b><span id="capNhatChu">Có bản mới là tự tải và cài</span></div>
+      <div class="cong" id="tuDongCong"></div>
+    </div>
+    <div class="dong bam" id="kiemTraDong">
+      <div class="bt"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></div>
+      <div class="nd"><b>Kiểm tra cập nhật</b><span id="kiemTraChu">Bấm để kiểm tra ngay</span></div>
+    </div>
+  </div>
   <div class="ghichu">• Bấm âm lượng một lần vẫn chỉnh âm lượng như thường.<br>• Nút âm lượng chỉ dùng được khi màn hình đang sáng (Android không cho app nào đọc nút này lúc màn hình tắt).<br>• Đang gọi điện thì nút âm lượng hoạt động bình thường.</div>
   <div class="chan" id="chan"></div>
 </div>
@@ -293,7 +304,18 @@ let ioIcon = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ 
 function napIcon(){ document.querySelectorAll('img[data-icon]').forEach(i=>ioIcon.observe(i)); }
 $('#timO').addEventListener('input', e=>veApp(e.target.value));
 
-veQuyen(); veNhom();
+function veCapNhat(t){
+  if(!N.capNhat) { $('#capNhatThe').style.display='none'; return; }
+  t = t || JSON.parse(N.capNhat());
+  $('#tuDongCong').classList.toggle('mo', !!t.tuDong);
+  $('#capNhatChu').textContent = t.tuDong ? 'Có bản mới là tự tải và cài' : 'Đang tắt – chỉ báo khi có bản mới';
+  $('#kiemTraChu').textContent = 'Bản ' + t.phienBan + (t.thongBao ? ' · ' + t.thongBao : '');
+}
+$('#tuDongDong').onclick=()=>{ const t=JSON.parse(N.capNhat()); N.datTuDong(!t.tuDong); veCapNhat(); toast(!t.tuDong?'Đã bật tự động cập nhật':'Đã tắt tự động cập nhật'); };
+$('#kiemTraDong').onclick=()=>{ $('#kiemTraChu').textContent='Đang kiểm tra…'; N.kiemTraCapNhat(); };
+window.onCapNhat = t => { veCapNhat(t); if(t.banMoi && !t.tuDong) toast('Có bản mới '+t.banMoi); };
+
+veQuyen(); veNhom(); veCapNhat();
 </script>
 </body>
 </html>

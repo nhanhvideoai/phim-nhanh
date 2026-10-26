@@ -174,6 +174,51 @@ public class PhimService extends AccessibilityService {
   // ---------------- Vòng đời ----------------
   @Override protected void onServiceConnected() { ban = this; Nhatky.ghi(this, "dich vu ket noi"); }
   @Override public boolean onUnbind(Intent i) { if (ban == this) ban = null; return super.onUnbind(i); }
-  @Override public void onAccessibilityEvent(AccessibilityEvent e) { if (buoc != 0) quet(); }
+  @Override public void onAccessibilityEvent(AccessibilityEvent e) {
+    CharSequence pk = e.getPackageName();
+    if (pk != null && pk.toString().contains("packageinstaller")) batDauXacNhan();
+    if (buoc != 0) quet();
+  }
+
+  // ---------------- Tự bấm xác nhận khi cập nhật app của ông Nhanh ----------------
+  static final String[] APP_CUA_TOI = {"Lịch Nhanh", "Phím Nhanh"};
+  static final String[] NUT_CAI = {"Tiếp tục cài đặt", "Tiếp tục", "Continue installation", "Continue", "继续安装", "继续",
+      "Cập nhật", "Update", "更新", "Cài đặt", "Install", "安装"};
+  long xacNhanDen = 0, lanBamCai = 0;
+
+  void batDauXacNhan() {
+    boolean dangChay = SystemClock.uptimeMillis() < xacNhanDen;
+    xacNhanDen = SystemClock.uptimeMillis() + 20000;
+    if (!dangChay) h.post(xacNhanVong);
+  }
+
+  final Runnable xacNhanVong = new Runnable() { public void run() {
+    if (SystemClock.uptimeMillis() > xacNhanDen) return;
+    try { xacNhanCai(); } catch (Throwable ignored) {}
+    h.postDelayed(this, 400);
+  }};
+
+  void xacNhanCai() {
+    if (SystemClock.uptimeMillis() - lanBamCai < 900) return;
+    for (AccessibilityWindowInfo w : getWindows()) {
+      AccessibilityNodeInfo r = w.getRoot();
+      if (r == null || r.getPackageName() == null || !r.getPackageName().toString().contains("packageinstaller")) continue;
+      boolean cuaToi = false;
+      for (String t : APP_CUA_TOI) if (!r.findAccessibilityNodeInfosByText(t).isEmpty()) { cuaToi = true; break; }
+      if (!cuaToi) continue;
+      for (String t : NUT_CAI) {
+        for (AccessibilityNodeInfo n : r.findAccessibilityNodeInfosByText(t)) {
+          CharSequence x = n.getText();
+          if (x == null || !x.toString().trim().equalsIgnoreCase(t)) continue;
+          AccessibilityNodeInfo p = n; while (p != null && !p.isClickable()) p = p.getParent();
+          if (p == null || !p.isEnabled()) continue;
+          p.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+          lanBamCai = SystemClock.uptimeMillis();
+          Nhatky.ghi(this, "tu bam nut cai: " + t);
+          return;
+        }
+      }
+    }
+  }
   @Override public void onInterrupt() {}
 }

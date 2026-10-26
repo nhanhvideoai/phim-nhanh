@@ -81,7 +81,11 @@ public class MainActivity extends Activity {
     });
     web.addJavascriptInterface(new Bridge(this), "Native");
     web.loadUrl("https://appassets.androidplatform.net/assets/www/index.html");
+    CapNhat.lenLich(this);
+    if (CapNhat.tuDong(this)) CapNhat.kiemTra(this, true, t -> goiJs("window.onCapNhat&&onCapNhat(" + t + ")"));
   }
+
+  void goiJs(String js) { if (web != null) web.evaluateJavascript(js, null); }
 
   /** Ghi lại lỗi vào file để kiểm tra qua USB: Android/data/com.nhanh.phim/files/loi.txt */
   private void installCrashLog() {

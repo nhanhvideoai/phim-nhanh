@@ -95,6 +95,13 @@ public class Bridge {
     try { JSONObject o = new JSONObject(json); a.runOnUiThread(() -> HanhDong.chay(a, o)); } catch (Exception ignored) {}
   }
 
+  // ---- Tự cập nhật ----
+  @JavascriptInterface public String capNhat() { return CapNhat.trangThai(a).toString(); }
+  @JavascriptInterface public void datTuDong(boolean b) { CapNhat.datTuDong(a, b); }
+  @JavascriptInterface public void kiemTraCapNhat() {
+    CapNhat.kiemTra(a, true, t -> a.goiJs("window.onCapNhat&&onCapNhat(" + t + ")"));
+  }
+
   @JavascriptInterface public void moWeb(String url) {
     a.runOnUiThread(() -> a.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url))));
   }
