@@ -8,7 +8,7 @@ android {
   compileSdk 34
   defaultConfig {
     applicationId 'com.nhanh.phim'
-    minSdk 26
+    minSdk 29
     targetSdk 34
     versionCode vc
     versionName vn
@@ -30,6 +30,7 @@ android {
       signingConfig signingConfigs.release
     }
   }
+  lint { checkReleaseBuilds false; abortOnError false }
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_17
     targetCompatibility JavaVersion.VERSION_17

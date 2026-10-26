@@ -26,7 +26,17 @@ jobs:
       - name: Build release APK
         env:
           KS_PASS: 'lichnhanh-tPPEPGmt3sm'
-        run: gradle assembleRelease --no-daemon -Pvc=${{ github.run_number }} -Pvn=1.0.${{ github.run_number }}
+        run: |
+          set -o pipefail
+          gradle assembleRelease --no-daemon -Pvc=${{ github.run_number }} -Pvn=1.0.${{ github.run_number }} 2>&1 | tee build.log
+
+      - name: Báo lỗi build
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          grep -E "error:|e: |What went wrong|\.java:[0-9]+" -A3 build.log | head -80 > loi.txt || true
+          gh api repos/${{ github.repository }}/commits/${{ github.sha }}/comments -f body="$(cat loi.txt)" 
 
       - name: Rename APK
         run: cp app/build/outputs/apk/release/app-release.apk phim-nhanh-1.0.${{ github.run_number }}.apk
