@@ -161,6 +161,8 @@ public final class CapNhat {
       Intent kq = new Intent(c, CapNhatXong.class).putExtra("tag", tag);
       int fl = PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= 31 ? PendingIntent.FLAG_MUTABLE : 0);
       PendingIntent pend = PendingIntent.getBroadcast(c, id, kq, fl);
+      // Báo Phím Nhanh (nếu có) để tự bấm "Install" trên hộp cảnh báo ICP của Xiaomi
+      try { c.sendBroadcast(new Intent("com.nhanh.phim.CHO_CAI").setPackage("com.nhanh.phim").putExtra("pkg", c.getPackageName())); } catch (Exception ignored) {}
       s.commit(pend.getIntentSender());
     }
     ghi(c, "Đang cài bản " + tag + "…");

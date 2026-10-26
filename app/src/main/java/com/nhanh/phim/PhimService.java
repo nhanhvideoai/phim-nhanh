@@ -177,11 +177,13 @@ public class PhimService extends AccessibilityService {
   @Override public void onAccessibilityEvent(AccessibilityEvent e) {
     CharSequence pk = e.getPackageName();
     if (pk != null && pk.toString().contains("packageinstaller")) batDauXacNhan();
+    if (pk != null && pk.toString().contains("packageinstaller") == false && SystemClock.uptimeMillis() < choCaiDen) batDauXacNhan();
     if (buoc != 0) quet();
   }
 
   // ---------------- Tự bấm xác nhận khi cập nhật app của ông Nhanh ----------------
   static final String[] APP_CUA_TOI = {"Lịch Nhanh", "Phím Nhanh"};
+  static volatile long choCaiDen = 0;   // app của Nhanh vừa báo sắp cài bản mới
   static final String[] NUT_CAI = {"Tiếp tục cài đặt", "Tiếp tục", "Continue installation", "Continue", "继续安装", "继续",
       "Cập nhật", "Update", "更新", "Cài đặt", "Install", "安装"};
   long xacNhanDen = 0, lanBamCai = 0;
@@ -203,7 +205,7 @@ public class PhimService extends AccessibilityService {
     for (AccessibilityWindowInfo w : getWindows()) {
       AccessibilityNodeInfo r = w.getRoot();
       if (r == null || r.getPackageName() == null || !r.getPackageName().toString().contains("packageinstaller")) continue;
-      boolean cuaToi = false;
+      boolean cuaToi = SystemClock.uptimeMillis() < choCaiDen;
       for (String t : APP_CUA_TOI) if (!r.findAccessibilityNodeInfosByText(t).isEmpty()) { cuaToi = true; break; }
       if (!cuaToi) continue;
       for (String t : NUT_CAI) {
