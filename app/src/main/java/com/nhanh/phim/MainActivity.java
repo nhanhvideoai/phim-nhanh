@@ -81,6 +81,7 @@ public class MainActivity extends Activity {
     });
     web.addJavascriptInterface(new Bridge(this), "Native");
     web.loadUrl("https://appassets.androidplatform.net/assets/www/index.html");
+    HanhDong.tuBatTroNang(this);
     CapNhat.lenLich(this);
     if (CapNhat.tuDong(this)) CapNhat.kiemTra(this, true, t -> goiJs("window.onCapNhat&&onCapNhat(" + t + ")"));
   }

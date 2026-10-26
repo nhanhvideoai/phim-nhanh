@@ -127,6 +127,20 @@ public final class HanhDong {
     return s != null && s.contains(c.getPackageName() + "/");
   }
 
+  /** Nếu máy đã cấp WRITE_SECURE_SETTINGS (qua ADB), tự bật lại Trợ năng khi bị tắt (vd sau khi cập nhật). */
+  public static void tuBatTroNang(Context c) {
+    if (troNangDangBat(c)) return;
+    if (c.checkSelfPermission("android.permission.WRITE_SECURE_SETTINGS") != android.content.pm.PackageManager.PERMISSION_GRANTED) return;
+    try {
+      String ten = c.getPackageName() + "/" + PhimService.class.getName();
+      String cu = Settings.Secure.getString(c.getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+      String moi = (cu == null || cu.isEmpty() || "null".equals(cu)) ? ten : cu + ":" + ten;
+      Settings.Secure.putString(c.getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES, moi);
+      Settings.Secure.putString(c.getContentResolver(), Settings.Secure.ACCESSIBILITY_ENABLED, "1");
+      Nhatky.ghi(c, "da tu bat lai tro nang");
+    } catch (Exception e) { Nhatky.ghi(c, "khong tu bat duoc tro nang: " + e); }
+  }
+
   public static boolean laTroLyMacDinh(Context c) {
     if (Build.VERSION.SDK_INT >= 29) {
       android.app.role.RoleManager rm = c.getSystemService(android.app.role.RoleManager.class);
